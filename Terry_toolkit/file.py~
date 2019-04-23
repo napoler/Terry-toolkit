@@ -17,9 +17,6 @@ class File:
         return files
     #打开文件
     def open_file(self, file):
-        """
-        >>> open_file('a.txt'):
-        """
         print('open_file',file)
         if os.path.isfile(file):
             print('open_file 存在',file)
