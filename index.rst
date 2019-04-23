@@ -9,6 +9,7 @@ Welcome to Terry_toolkit's documentation!
 .. toctree::
    :maxdepth: 2
    :caption: Contents:
+   hello
 
 
 

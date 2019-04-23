@@ -11,6 +11,6 @@ setup(
     packages=['Terry_toolkit'])
     #install_requires=['jieba'])
 
-# python setup.py sdist
-# #python setup.py install
-# python setup.py sdist upload
+# python3 setup.py sdist
+# #python3 setup.py install
+# python3 setup.py sdist upload

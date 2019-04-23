@@ -14,7 +14,7 @@ import os
 import sys
 # sys.path.insert(0, os.path.abspath('.'))
 
-sys.path.insert(0, os.path.abspath('./Terry_toolkit'))
+sys.path.insert(0, os.path.abspath('./Terry_toolkit/'))
 # -- Project information -----------------------------------------------------
 
 project = 'Terry_toolkit'
