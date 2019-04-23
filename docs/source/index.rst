@@ -9,6 +9,8 @@ Welcome to Terry-toolkit's documentation!
 .. toctree::
    :maxdepth: 2
    :caption: Contents:
+   Terry_toolkit
+   modules
 
 
 
