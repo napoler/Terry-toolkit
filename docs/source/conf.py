@@ -53,7 +53,11 @@ extensions = ['sphinx.ext.autodoc',
     'sphinx.ext.intersphinx',
     'sphinx.ext.todo',
     'sphinx.ext.coverage',
-    'sphinx.ext.mathjax']
+    'sphinx.ext.mathjax',
+    'sphinx.ext.mathjax',
+    'sphinx.ext.mathjax',
+
+    'sphinx.ext.viewcode']
 
 # -- Options for HTML output -------------------------------------------------
 

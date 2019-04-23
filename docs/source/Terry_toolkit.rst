@@ -4,14 +4,10 @@ Terry\_toolkit package
 Submodules
 ----------
 
-Terry\_toolkit.file module
---------------------------
+.. toctree::
 
-.. automodule:: Terry_toolkit.file
-    :members:
-    :undoc-members:
-    :show-inheritance:
-
+   Terry_toolkit.file
+   Terry_toolkit.text
 
 Module contents
 ---------------

@@ -17,4 +17,13 @@ from Terry-toolkit import file
 tfile=file.File()
 
 
+## 构建文档
+```
 
+
+sphinx-apidoc -f -o docs/source/ Terry_toolkit --ext-autodoc -e
+
+
+sphinx-apidoc -f -o docs/source/ Terry_toolkit
+
+```
