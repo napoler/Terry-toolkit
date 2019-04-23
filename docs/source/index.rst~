@@ -9,6 +9,8 @@ Terry-toolkit Python3工具包集合各种有用的函数,便于方便操作和�
 # 安装方法
 >>> pip install Terry-toolkit
 
+项目地址 https://github.com/napoler/Terry-toolkit
+
 .. toctree::
    Terry_toolkit
    modules
