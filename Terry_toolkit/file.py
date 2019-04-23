@@ -18,7 +18,10 @@ class File:
     #打开文件
     def open_file(self, file):
         """
+        测试 
+        
         多编码兼容打开文件
+        
         >>> open_file('a.txt'):
         """
         print('open_file',file)
