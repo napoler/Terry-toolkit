@@ -28,3 +28,6 @@ open_file()
 
 pip install -r requirements.txt
 
+
+# 构建文档
+sphinx-build -b html . ./docs
