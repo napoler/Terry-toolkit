@@ -11,7 +11,7 @@ class File:
         """
         遍历目录文件夹
 
-        file_List('/home/','txt')
+        >>> file_List('/home/','txt')
 
 
         """

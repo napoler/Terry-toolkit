@@ -2,7 +2,7 @@
 from setuptools import find_packages, setup
 setup(
     name='Terry-toolkit',
-    version='0.0.1.2',
+    version='0.0.1.3',
     description='Terry toolkit',
     author='Terry Chan',
     author_email='napoler2008@gmail.com',

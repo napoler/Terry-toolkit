@@ -6,7 +6,7 @@ setup(
     description='Terry toolkit',
     author='Terry Chan',
     author_email='napoler2008@gmail.com',
-    url='https://github.com/napoler/Terry-toolkit',
+    url='https://terry-toolkit.terrychan.org/zh/master/',
 
     # packages=find_packages(),
     packages=['Terry_toolkit'])
