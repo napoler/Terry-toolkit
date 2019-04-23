@@ -1,9 +1,9 @@
 .. Terry-toolkit documentation master file, created by
-   sphinx-quickstart on Tue Apr 23 17:45:28 2019.
+   sphinx-quickstart on Tue Apr 23 17:55:12 2019.
    You can adapt this file completely to your liking, but it should at least
    contain the root `toctree` directive.
 
-Welcome to Terry-toolkit's 文档!
+Welcome to Terry-toolkit's documentation!
 =========================================
 
 .. toctree::
