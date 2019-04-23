@@ -19,6 +19,7 @@ class File:
     def open_file(self, file):
         """
         多编码兼容打开文件
+
         >>> open_file('a.txt'):
         """
         print('open_file',file)
@@ -37,6 +38,15 @@ class File:
             return False
     # 清理多余的换行空格等
     def clear(self, string):
+        """Summary of class here.
+
+        Longer class information....
+        Longer class information....
+
+        Attributes:
+            likes_spam: A boolean indicating if we like SPAM or not.
+            eggs: An integer count of the eggs we have laid.
+        """
 
         # return string.strip()
         # for line in string.readlines():
