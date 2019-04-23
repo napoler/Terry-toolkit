@@ -8,6 +8,13 @@ class File:
         pass
     # 遍历目录文件夹
     def file_List(self, path, type='txt'):
+        """
+        遍历目录文件夹
+
+        file_List('/home/','txt')
+
+
+        """
         files = []
         for file in os.listdir(path):
 
@@ -18,7 +25,6 @@ class File:
     #打开文件
     def open_file(self, file):
         """
-        测试
 
         多编码兼容打开文件
 
