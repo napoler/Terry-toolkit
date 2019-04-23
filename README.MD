@@ -3,7 +3,7 @@ Terry-toolkit常用函数整理的工具包
 
 ## 安装
 ```
-pip install Terry-toolkit
+pip3 install Terry-toolkit
 ```
 
 
@@ -16,18 +16,3 @@ from Terry-toolkit import file
 
 tfile=file.File()
 
-
-
-#分句
-jpath.cut_p( file)
-cut_p.end
-```
-open_file()
-
-
-
-pip install -r requirements.txt
-
-
-# 构建文档
-sphinx-build -b html . ./docs

@@ -3,8 +3,10 @@
    You can adapt this file completely to your liking, but it should at least
    contain the root `toctree` directive.
 
-Welcome to Terry-toolkit's documentation!
+Terry-toolkit's使用文档!
 =========================================
+Terry-toolkit工具包集合各种有用的函数,便于方便操作和开发.
+
 
 .. toctree::
    :maxdepth: 2
@@ -14,7 +16,7 @@ Welcome to Terry-toolkit's documentation!
 
 
 
-Indices and tables
+功能导航
 ==================
 
 * :ref:`genindex`
