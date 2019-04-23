@@ -18,8 +18,14 @@ class File:
     #打开文件
     def open_file(self, file):
         """
+        测试 
+        
         多编码兼容打开文件
+<<<<<<< HEAD
 
+=======
+        
+>>>>>>> 5c3cd7f67eca8d216785665b90a3df8bbbef12e7
         >>> open_file('a.txt'):
         """
         print('open_file',file)
