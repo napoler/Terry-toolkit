@@ -31,5 +31,12 @@ text="""
 # li = t.summary(text=text)
 # print(li)
 
-li = t.get_keyphrases(text=text)
+# li = t.get_keyphrases(text=text)
+# print(li)
+
+# li = t.sentence_segmentation(text=text)
+# print(li)
+
+
+li = t.participle(text='李建军任职了10个月的灵武市长就升任市委书记，接任灵武市长的正是陈淑惠',dotype='words_all_filters')
 print(li)
