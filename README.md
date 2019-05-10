@@ -48,3 +48,4 @@ make html
 其它库推荐
 
 cacheout  #函数缓存
+pip install MagicBaidu

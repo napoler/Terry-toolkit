@@ -25,6 +25,14 @@ setup(
     long_description_content_type="text/markdown",  # 指定包文档格式为markdown
     install_requires=read_requirements('requirements.txt'),  # 指定需要安装的依赖
     include_package_data=True,
+    install_requires=[
+        'beautifulsoup4==4.7.1',
+        'bs4==0.0.1',
+        'MagicBaidu==0.0.9',
+        'requests==2.21.0',
+        'textrank4zh==0.3'
+
+    ],
     packages=['Terry_toolkit'])
     # install_requires=[
     #     # asn1crypto==0.24.0

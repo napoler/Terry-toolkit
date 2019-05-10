@@ -13,5 +13,7 @@ from .file import File
 from .text import Text
 from .dict_get import Dict
 from .crawler_baidu import CrawlerBaidu
-# from .tfidf4zh import TFIDF
 from .CxExtractor import CxExtractor
+from .url import Url
+from .SearchBaidu import SearchBaidu
+# from .TextRank4ZH import TextRank4ZH

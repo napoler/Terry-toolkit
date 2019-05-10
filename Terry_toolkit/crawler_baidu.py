@@ -7,6 +7,27 @@ from bs4 import BeautifulSoup  # 用于解析HTML
 from . import CxExtractor
 # import Terry_toolkit as tkit 
 # import re
+
+# from __future__ import print_function
+# #https://github.com/letiantian/TextRank4ZH
+# import sys
+# try:
+#     reload(sys)
+#     sys.setdefaultencoding('utf-8')
+# except:
+#     pass
+
+# import codecs
+# from textrank4zh import TextRank4Keyword, TextRank4Sentence
+
+
+
+
+
+
+
+
+
 class CrawlerBaidu:
     """
     # CrawlerBaidu
@@ -59,14 +80,26 @@ class CrawlerBaidu:
         # 获取文档对象中“class”属性为“c-showurl”的<a>标签
         # k =
         urls = []
-        for item in soup.find_all('h3'):
-            # print(item.a.get_text())
-            # print(item.a['href'])
-            k = {
-                'title': item.a.get_text(),
-                'url': item.a['href']
-            }
-            urls.append(k)
+        for result in soup.find_all( class_='result'):
+            # print(result)
+            print('*'*30)
+            # a= result.find_all("a.m").get('href')
+            # print(a)
+ 
+            for a in result.find_all(class_='m'):
+                 
+                print(a.a)
+                print('*'*10)
+ 
+            print('*'*100)
+            for item in result.find_all('h3'):
+                # print(item.a.get_text())
+                # print(item.a['href'])
+                k = {
+                    'title': item.a.get_text(),
+                    'url': item.a['href']
+                }
+                urls.append(k)
 
         return urls
 
@@ -110,30 +143,53 @@ class CrawlerBaidu:
 
         
         """
-        # li = self.get(keyword)
-        # cx = CxExtractor.CxExtractor()
-        # urls = []
-        # for item in li:
+        # tr4w = TextRank4Keyword()
 
-        #     print(item['title'])
-        #     print(item['url'])
+        # # tr4w.analyze(text=text, lower=True, window=2)  # py2中text必须是utf8编码的str或者unicode对象，py3中必须是utf8编码的bytes或者str对象
 
-        #     # test_html = cx.readHtml("E:\\Documents\\123.html")
-        #     # test_html = cx.getHtml(item['url'])
-        #     test_html = self.open_url(item['url'])
-        #     content = cx.filter_tags(test_html)
-        #     s = cx.getText(content)
-        #     # print(s)
-        #     k = {
-        #         'title': item['title'],
-        #         'url': item.a['url'],
-        #         'text':s
-        #     }
-        #     urls.append(k)
-        # return urls
+        # # print( '关键词：' )
+        # # for item in tr4w.get_keywords(20, word_min_len=1):
+        # #     print(item.word, item.weight)
+
+        # # print()
+        # # print( '关键短语：' )
+        # # for phrase in tr4w.get_keyphrases(keywords_num=20, min_occur_num= 2):
+        # #     print(phrase)
+
+        # tr4s = TextRank4Sentence()
+        # # tr4s.analyze(text=text, lower=True, source = 'all_filters')
+
+        # # print()
+        # # print( '摘要：' )
+        # # for item in tr4s.get_key_sentences(num=10):
+        # #     print(item.index, item.weight, item.sentence)  # index是语句在文本中位置，weight是权重
+
+
+        li = self.get(keyword)
+        cx = CxExtractor.CxExtractor()
+        urls = []
+        for item in li:
+
+            print(item['title'])
+            print(item['url'])
+
+            # test_html = cx.readHtml("E:\\Documents\\123.html")
+            # test_html = cx.getHtml(item['url'])
+            html = self.open_url(item['url'])
+            content = cx.filter_tags(html)
+            s = cx.getText(content)
+            # print(s)
+            k = {
+                'title': item['title'],
+                'url': item.a['url'],
+                'text':s
+            }
+            urls.append(k)
+        return urls
         pass
 
 
 
-li = CrawlerBaidu().get_full('柯基犬')
-print(li)
+
+# li = CrawlerBaidu().get_full('柯基犬')
+# print(li)

@@ -3,7 +3,7 @@ import chardet
 
 import requests
 
-
+from .url import Url
 class CxExtractor:
     """
     cx-extractor implemented in Python
@@ -169,3 +169,15 @@ class CxExtractor:
         s = re_space.sub(' ', s)
         s = self.replaceCharEntity(s)
         return s
+    def url_text(self, url):
+        """
+        直接根据url获取内容
+
+        >>> url_text(url)
+
+        """
+
+        html = Url().open_url(url)
+        content = self.filter_tags(html)
+        text = self.getText(content)
+        return text
