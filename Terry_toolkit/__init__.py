@@ -12,5 +12,5 @@ from .file import File
 from .text import Text
 from .dict_get import Dict
 from .crawler_baidu import CrawlerBaidu
-from .tfidf4zh import TFIDF
+# from .tfidf4zh import TFIDF
 from .CxExtractor import CxExtractor
