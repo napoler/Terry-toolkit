@@ -2,14 +2,12 @@
 from setuptools import find_packages, setup
 setup(
     name='Terry_toolkit',
-    version='0.0.1.6',
+    version='0.0.1.6.2',
     description='Terry toolkit',
     author='Terry Chan',
     author_email='napoler2008@gmail.com',
     url='https://terry-toolkit.terrychan.org/zh/master/',
-
-    # packages=find_packages(),
-    packages=['Terry_toolkit']
+    packages=['src'])
     # install_requires=[
     #     # asn1crypto==0.24.0
     #     # beautifulsoup4==4.7.1
@@ -44,7 +42,7 @@ setup(
     #     # yarg==0.1.9
 
     # ],
-    )
+
     #install_requires=['jieba'])
 
 # python3 setup.py sdist

@@ -4,8 +4,8 @@ import time
 import requests
 import urllib.request
 from bs4 import BeautifulSoup  # 用于解析HTML
-
-import Terry_toolkit as tkit 
+import CxExtractor
+# import Terry_toolkit as tkit 
 # import re
 class CrawlerBaidu:
     """
@@ -111,8 +111,8 @@ class CrawlerBaidu:
         
         """
         li = self.get(keyword)
-        cx = tkit.CxExtractor()
-        urls
+        cx = CxExtractor.CxExtractor()
+        urls = []
         for item in li:
 
             print(item['title'])
@@ -134,5 +134,5 @@ class CrawlerBaidu:
 
 
 
-# li = Baidu().get('柯基犬')
-# print(li)
+li = CrawlerBaidu().get_full('柯基犬')
+print(li)
