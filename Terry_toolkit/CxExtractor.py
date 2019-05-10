@@ -178,6 +178,11 @@ class CxExtractor:
         """
 
         html = Url().open_url(url)
-        content = self.filter_tags(html)
-        text = self.getText(content)
-        return text
+        
+        if html:
+            print('内容成功')
+            # html = Url().open_url_v1(url)
+            content = self.filter_tags(str(html))
+            text = self.getText(content)
+            return text
+

@@ -4,12 +4,30 @@ import sys
 sys.path.append("../")
 import Terry_toolkit as tkit
 url=tkit.Url()
-myurl = 'https://baike.baidu.com/item/%E5%A8%81%E5%B0%94%E5%A3%AB%E6%9F%AF%E5%9F%BA%E7%8A%AC/84385?fromtitle=%E6%9F%AF%E5%9F%BA%E7%8A%AC&fromid=1198817&fr=aladdin'
+myurl = 'https://blog.csdn.net/hxldxx99/article/details/48932393'
 # text = url.open_url_v1(url= myurl)
 # print('网页文本为',text)
 
-
+import requests
 
  
-text = url.open_url(url= myurl)
-print('网页文本为',text)
+# text = url.open_url(url= myurl)
+# print('网页文本为',text)
+
+ 
+# html=requests.get(myurl)
+# print (html.encoding)
+# print (html.text.encode(html.encoding))
+
+
+headers = {'user-agent': 'Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/73.0.3683.103 Safari/537.36'}
+resp = requests.get(myurl,headers=headers) #请求
+
+
+# resp=requests.get(myurl)
+print (resp.encoding)
+resp.encoding = resp.apparent_encoding
+print (resp.encoding)
+txt = resp.text #获取响应的html内容
+    
+print (txt)

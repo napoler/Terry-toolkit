@@ -92,12 +92,14 @@ class Text:
         """
         tr4s = TextRank4Sentence()
         tr4s.analyze(text=text, lower=True, source = 'all_filters')
-        print(tr4s.get_key_sentences(num=3))
+        # print(tr4s.get_key_sentences(num=3))
+        return tr4s.get_key_sentences(num=num)
 
         # return data
     def get_keywords(self, text,num=10):
         """获取文本的关键词
         https://github.com/napoler/TextRank4ZH
+
         >>> get_keywords( text,num=10)
         >>> [{'word': '淑惠', 'weight': 0.03249010309710726}, {'word': '法院', 'weight': 0.02192152416206948}, {'word': '灵武', 'weight': 0.021869542539628625}, {'word': '李建军', 'weight': 0.019213098969148662}, {'word': '人财物', 'weight': 0.01856601133033217}, {'word': '市长', 'weight': 0.017907055156049748}, {'word': '市委书记', 'weight': 0.017755388969961372}, {'word': '被告人', 'weight': 0.016851090405232656}, {'word': '受贿罪', 'weight': 0.016218911983344443}, {'word': '行贿人', 'weight': 0.015739567821084217}]
        
@@ -122,3 +124,23 @@ class Text:
         return tr4w.get_keyphrases(keywords_num=num, min_occur_num= 2)
 
         # return data
+    def text_processing(self, text):
+        """对文本进行更多的处理
+        获取到更多的内容
+        进行分词，分句等处理
+
+        >>> text_processing(text)
+
+        """
+ 
+        data = {
+            'keyphrases':self.get_keyphrases(text),
+            'keywords' : self.get_keywords(text),
+            'summary':self.summary(text),
+            'sentence':self.sentence_segmentation(text),
+            'text':text
+
+
+
+        }
+        return data

@@ -30,7 +30,8 @@ setup(
         'bs4==0.0.1',
         'MagicBaidu==0.0.9',
         'requests==2.21.0',
-        'textrank4zh==0.3'
+        'textrank4zh==0.3',
+        'cacheout==0.11.1'
 
     ],
     packages=['Terry_toolkit'])
