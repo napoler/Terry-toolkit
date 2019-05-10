@@ -11,8 +11,10 @@ pip3 install Terry-toolkit
 
 项目地址 https://github.com/napoler/Terry-toolkit
 
+API
+===
+
 .. toctree::
-   Terry_toolkit
    modules
 
 

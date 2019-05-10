@@ -7,7 +7,7 @@ setup(
     author='Terry Chan',
     author_email='napoler2008@gmail.com',
     url='https://terry-toolkit.terrychan.org/zh/master/',
-    packages=['src'])
+    packages=['Terry_toolkit'])
     # install_requires=[
     #     # asn1crypto==0.24.0
     #     # beautifulsoup4==4.7.1

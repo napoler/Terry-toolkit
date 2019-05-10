@@ -7,7 +7,7 @@ setup(
     author='Terry Chan',
     author_email='napoler2008@gmail.com',
     url='https://terry-toolkit.terrychan.org/zh/master/',
-    packages=['Terry_toolkit'])
+    packages=['src'])
     # install_requires=[
     #     # asn1crypto==0.24.0
     #     # beautifulsoup4==4.7.1
@@ -42,7 +42,7 @@ setup(
     #     # yarg==0.1.9
 
     # ],
-    
+
     #install_requires=['jieba'])
 
 # python3 setup.py sdist

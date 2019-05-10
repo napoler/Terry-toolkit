@@ -37,8 +37,9 @@ cd ../
 
 #使用这个
 
-sphinx-apidoc -f -o docs/source/ src  -e --ext-autodoc --ext-githubpages --ext-viewcode --ext-todo
+sphinx-apidoc -f -o docs/source/ Terry_toolkit  -e --ext-autodoc --ext-githubpages --ext-viewcode --ext-todo
 cd docs
+#不需要 sphinx-build -b html source build 
 make html
 ```
 

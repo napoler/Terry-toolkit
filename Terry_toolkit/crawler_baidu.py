@@ -4,7 +4,7 @@ import time
 import requests
 import urllib.request
 from bs4 import BeautifulSoup  # 用于解析HTML
-import CxExtractor
+from . import CxExtractor
 # import Terry_toolkit as tkit 
 # import re
 class CrawlerBaidu:
@@ -110,27 +110,28 @@ class CrawlerBaidu:
 
         
         """
-        li = self.get(keyword)
-        cx = CxExtractor.CxExtractor()
-        urls = []
-        for item in li:
+        # li = self.get(keyword)
+        # cx = CxExtractor.CxExtractor()
+        # urls = []
+        # for item in li:
 
-            print(item['title'])
-            print(item['url'])
+        #     print(item['title'])
+        #     print(item['url'])
 
-            # test_html = cx.readHtml("E:\\Documents\\123.html")
-            # test_html = cx.getHtml(item['url'])
-            test_html = self.open_url(item['url'])
-            content = cx.filter_tags(test_html)
-            s = cx.getText(content)
-            # print(s)
-            k = {
-                'title': item['title'],
-                'url': item.a['url'],
-                'text':s
-            }
-            urls.append(k)
-        return urls
+        #     # test_html = cx.readHtml("E:\\Documents\\123.html")
+        #     # test_html = cx.getHtml(item['url'])
+        #     test_html = self.open_url(item['url'])
+        #     content = cx.filter_tags(test_html)
+        #     s = cx.getText(content)
+        #     # print(s)
+        #     k = {
+        #         'title': item['title'],
+        #         'url': item.a['url'],
+        #         'text':s
+        #     }
+        #     urls.append(k)
+        # return urls
+        pass
 
 
 

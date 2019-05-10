@@ -13,12 +13,12 @@ class CxExtractor:
     https://github.com/t-web/cx-extractor-python
 
    
-    # cx = CxExtractor()
+    >>> cx = CxExtractor()
     # # test_html = cx.readHtml("E:\\Documents\\123.html")
-    # test_html = cx.getHtml('http://news.163.com/16/0101/10/BC84MRHS00014AED.html')
-    # content = cx.filter_tags(test_html)
-    # s = cx.getText(content)
-    # print(s)
+    >>> test_html = cx.getHtml('http://news.163.com/16/0101/10/BC84MRHS00014AED.html')
+    >>> content = cx.filter_tags(test_html)
+    >>> s = cx.getText(content)
+    >>> print(s)
 
 
     
@@ -36,7 +36,7 @@ class CxExtractor:
         """
         获取文本
 
-        getText(content)
+        >>> getText(content)
         
         """
         if self.__text:
@@ -107,7 +107,7 @@ class CxExtractor:
         """
         获取html函数
 
-        getHtml(url):
+        >>> getHtml(url):
         
         """
 
@@ -122,7 +122,7 @@ class CxExtractor:
 
         读取html文件
 
-        readHtml(path, coding):
+        >>> readHtml(path, coding):
         
         """
 
@@ -139,7 +139,7 @@ class CxExtractor:
         """
         清理多余的内容
 
-        filter_tags(htmlstr)
+        >>> filter_tags(htmlstr)
         
         
         """

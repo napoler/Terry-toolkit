@@ -9,7 +9,7 @@ Terry-toolkit工具包集合各种有用的函数,便于方便操作和开发.
 
 
 .. toctree::
-   :maxdepth: 2
+   :maxdepth: 4
    :caption: Contents:
    Terry_toolkit
 
