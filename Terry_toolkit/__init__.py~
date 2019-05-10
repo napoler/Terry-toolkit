@@ -4,5 +4,12 @@
 #from .b import B
 
 #多文件导入以后只用导入 import Terry-toolkit 就可以使用所有类
+#>>> import mymodule
+#>>> a = mymodule.A()
+#>>> a.spam()
+
 from .file import File
+from .text import Text
+from .dict_get import dict_get
+from .text import Text
 from .text import Text

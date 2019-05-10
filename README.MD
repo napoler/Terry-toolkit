@@ -3,7 +3,7 @@ Terry-toolkit常用函数整理的工具包
 
 ## 安装
 ```
-pip3 install Terry-toolkit
+pip3 install Terry_toolkit
 ```
 
 
@@ -17,13 +17,33 @@ from Terry-toolkit import file
 tfile=file.File()
 
 
+## 生成依赖
+
+pip3 freeze > requirements.txt
+
+
+## 提交包
+python3 setup.py sdist
+# #python3 setup.py install
+python3 setup.py sdist upload
+
+
 ## 构建文档
 ```
+mkdir docs
+cd docs
+sphinx-quickstart
+cd ../
 
+#使用这个
 
-sphinx-apidoc -f -o docs/source/ Terry_toolkit --ext-autodoc -e
-
-
-sphinx-apidoc -f -o docs/source/ Terry_toolkit
-
+sphinx-apidoc -f -o docs/source/ Terry_toolkit --ext-autodoc -e --ext-githubpages --ext-viewcode --ext-todo
+cd docs
+make html
 ```
+
+
+
+其它库推荐
+
+cacheout  #函数缓存
