@@ -8,6 +8,10 @@ import types
 
 
 class Dict:
+    """词典操作函数
+    
+    
+    """
     def __init__(self):
         pass
 
