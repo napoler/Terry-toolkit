@@ -23,7 +23,7 @@ setup(
     url='https://terry-toolkit.terrychan.org/zh/master/',
     long_description=read_file('README.md'), # 读取的Readme文档内容
     long_description_content_type="text/markdown",  # 指定包文档格式为markdown
-    install_requires=read_requirements('requirements.txt'),  # 指定需要安装的依赖
+    # install_requires=read_requirements('requirements.txt'),  # 指定需要安装的依赖
     include_package_data=True,
     install_requires=[
         'beautifulsoup4==4.7.1',
