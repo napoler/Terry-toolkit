@@ -8,6 +8,7 @@
 #>>> a = mymodule.A()
 #>>> a.spam()
 
+
 from .file import File
 from .text import Text
 from .dict_get import Dict
