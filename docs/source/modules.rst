@@ -1,7 +1,7 @@
-Terry_toolkit
-=============
+src
+===
 
 .. toctree::
    :maxdepth: 4
 
-   Terry_toolkit
+   src
