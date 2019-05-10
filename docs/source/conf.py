@@ -12,7 +12,7 @@
 #
 import os
 import sys
-sys.path.insert(0, os.path.abspath('../../Terry-toolkit'))
+sys.path.insert(0, os.path.abspath('../../Terry_toolkit'))
 
 
 # -- Project information -----------------------------------------------------
@@ -54,9 +54,7 @@ extensions = ['sphinx.ext.autodoc',
     'sphinx.ext.todo',
     'sphinx.ext.coverage',
     'sphinx.ext.mathjax',
-    'sphinx.ext.mathjax',
     'sphinx.ext.githubpages',
-
     'sphinx.ext.viewcode']
 
 # -- Options for HTML output -------------------------------------------------
