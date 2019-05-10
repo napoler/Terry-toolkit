@@ -8,7 +8,6 @@ baidu = tkit.CrawlerBaidu()
 # li = baidu.get('柯基犬')
 # print(li)
 
-
 li = baidu.get_full('柯基犬')
 print(li)
 
