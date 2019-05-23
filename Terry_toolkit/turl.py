@@ -15,9 +15,9 @@ class Url:
         可以自动预测编码问题
 
         >>> open_url(url)
- 
+
         """
- 
+
         headers = {'user-agent': 'Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/73.0.3683.103 Safari/537.36'}
         resp = requests.get(url,headers=headers) #请求
 
@@ -27,7 +27,7 @@ class Url:
         resp.encoding = resp.apparent_encoding
         # print (resp.encoding)
         txt = resp.text #获取响应的html内容
-            
+
         # print (txt)
         return txt
     def open_url_v4(self, url):
@@ -35,7 +35,7 @@ class Url:
         安全有效的打开url
 
         >>> open_url(url)
-        
+
         # req = request.build_opener(url)
         # req.add_header(
         #     'User-Agent', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:54.0) Gecko/20100101 Firefox/54.0')
@@ -65,7 +65,7 @@ class Url:
         except:
             # html = response.read().decode('gb2312')
             print('gbk')
-            
+
             html = response.read().decode('GB18030').encode(type)  # 关键
             print(html)
             return False
@@ -74,12 +74,12 @@ class Url:
     def open_url_v1(self, url):
         # r = requests.get(url)
         r = requests.get(url, allow_redirects=True)
- 
+
         print(r.url)
         print('r.status_code',r.status_code)
         print(' r.history', r.history)
         r.encoding='utf-8' #显式地指定网页编码，一般情况可以不用**
-        
+
         return r.text
         pass
     def open_url_v2(self,url):
@@ -94,7 +94,7 @@ class Url:
             print('无响应内容')
             return
             html=requests.get(myurl)
- 
+
         # print '响应:\nencoding={}'.format(resp.encoding)  #如果中文乱码，如果requests没有发现http headers中的charset
         # resp.encoding='utf-8' #设置响应编码（gbk、utf-8、gb2312）
         txt = resp.text.encode(resp.encoding) #获取响应的html内容
@@ -111,9 +111,9 @@ class Url:
             print('无响应内容')
             return
         print (resp.encoding)
- 
+
         # print '响应:\nencoding={}'.format(resp.encoding)  #如果中文乱码，如果requests没有发现http headers中的charset
         # resp.encoding='utf-8' #设置响应编码（gbk、utf-8、gb2312）
         txt = resp.text.encode(resp.encoding) #获取响应的html内容
-    
+
         return txt

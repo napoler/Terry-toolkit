@@ -16,12 +16,15 @@ def read_requirements(filename):
 
 setup(
     name='Terry_toolkit',
-    version='0.0.1.6.2.8.4',
+    version='0.0.1.6.2.5',
     description='Terry toolkit',
     author='Terry Chan',
     author_email='napoler2008@gmail.com',
     url='https://terry-toolkit.terrychan.org/zh/master/',
-    #install_requires=read_requirements('requirements.txt'),  # 指定需要安装的依赖
+    long_description=read_file('README.md'), # 读取的Readme文档内容
+    long_description_content_type="text/markdown",  # 指定包文档格式为markdown
+    # install_requires=read_requirements('requirements.txt'),  # 指定需要安装的依赖
+    include_package_data=True,
     install_requires=[
         'beautifulsoup4==4.7.1',
         'bs4==0.0.1',

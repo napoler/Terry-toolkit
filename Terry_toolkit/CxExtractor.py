@@ -1,29 +1,12 @@
 import re
 import chardet
-
+#from url import Url as turl
+import Terry_toolkit as tkit
 import requests
+#https://github.com/chrislinan/cx-extractor-python/blob/master/CxExtractor.py
 
-from .url import Url
 class CxExtractor:
-    """
-    cx-extractor implemented in Python
-
-    网页正文抽取工具
-
-    https://github.com/t-web/cx-extractor-python
-
-   
-    >>> cx = CxExtractor()
-    # # test_html = cx.readHtml("E:\\Documents\\123.html")
-    >>> test_html = cx.getHtml('http://news.163.com/16/0101/10/BC84MRHS00014AED.html')
-    >>> content = cx.filter_tags(test_html)
-    >>> s = cx.getText(content)
-    >>> print(s)
-
-
-    
-    
-    """
+    """cx-extractor implemented in Python"""
 
     __text = []
     __indexDistribution = []
@@ -33,12 +16,6 @@ class CxExtractor:
         self.__threshold = threshold
 
     def getText(self, content):
-        """
-        获取文本
-
-        >>> getText(content)
-        
-        """
         if self.__text:
             self.__text = []
         lines = content.split('\n')
@@ -104,29 +81,12 @@ class CxExtractor:
         return htmlstr
 
     def getHtml(self, url):
-        """
-        获取html函数
-
-        >>> getHtml(url):
-        
-        """
-
-
         response = requests.get(url)
         encode_info = chardet.detect(response.content)
         response.encoding = encode_info['encoding']
         return response.text
 
     def readHtml(self, path, coding):
-        """
-
-        读取html文件
-
-        >>> readHtml(path, coding):
-        
-        """
-
-
         page = open(path, encoding=coding)
         lines = page.readlines()
         s = ''
@@ -136,13 +96,6 @@ class CxExtractor:
         return s
 
     def filter_tags(self, htmlstr):
-        """
-        清理多余的内容
-
-        >>> filter_tags(htmlstr)
-        
-        
-        """
         re_doctype = re.compile('<![DOCTYPE|doctype].*>')
         re_nav = re.compile('<nav.+</nav>')
         re_cdata = re.compile('//<!\[CDATA\[.*//\]\]>', re.DOTALL)
@@ -169,6 +122,35 @@ class CxExtractor:
         s = re_space.sub(' ', s)
         s = self.replaceCharEntity(s)
         return s
+
+    def filter_tags_no_br(self, htmlstr):
+        re_doctype = re.compile('<![DOCTYPE|doctype].*>')
+        re_nav = re.compile('<nav.+</nav>')
+        re_cdata = re.compile('//<!\[CDATA\[.*//\]\]>', re.DOTALL)
+        re_script = re.compile(
+            '<\s*script[^>]*>.*?<\s*/\s*script\s*>', re.DOTALL | re.I)
+        re_style = re.compile(
+            '<\s*style[^>]*>.*?<\s*/\s*style\s*>', re.DOTALL | re.I)
+        re_textarea = re.compile(
+            '<\s*textarea[^>]*>.*?<\s*/\s*textarea\s*>', re.DOTALL | re.I)
+      #  re_br = re.compile('<br\s*?/?>')
+        re_h = re.compile('</?\w+.*?>', re.DOTALL)
+        re_comment = re.compile('<!--.*?-->', re.DOTALL)
+        re_space = re.compile(' +')
+        s = re_cdata.sub('', htmlstr)
+        s = re_doctype.sub('',s)
+        s = re_nav.sub('', s)
+        s = re_script.sub('', s)
+        s = re_style.sub('', s)
+        s = re_textarea.sub('', s)
+        #s = re_br.sub('', s)
+        s = re_h.sub('', s)
+        s = re_comment.sub('', s)
+        s = re.sub('\\t', '', s)
+        s = re_space.sub(' ', s)
+        s = self.replaceCharEntity(s)
+        return s
+
     def url_text(self, url):
         """
         直接根据url获取内容
@@ -177,8 +159,9 @@ class CxExtractor:
 
         """
 
-        html = Url().open_url(url)
-        
+        dourl=tkit.Url()
+        html = dourl.open_url(url=url)
+
         if html:
             print('内容成功')
             # html = Url().open_url_v1(url)
@@ -186,3 +169,21 @@ class CxExtractor:
             text = self.getText(content)
             return text
 
+    def url_text_no_br(self, url):
+        """
+        直接根据url获取内容
+
+        >>> url_text(url)
+
+        """
+        dourl=tkit.Url()
+        html = dourl.open_url(url=url)
+
+        if html:
+            print('内容成功')
+            # html = Url().open_url_v1(url)
+            content = self.filter_tags_no_br(str(html))
+            text = self.getText(content)
+            return text
+#turl="http://www.sohu.com/a/227667958_604442"
+#CxExtractor().url_text(url = turl)
