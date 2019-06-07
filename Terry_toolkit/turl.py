@@ -117,3 +117,30 @@ class Url:
         txt = resp.text.encode(resp.encoding) #获取响应的html内容
 
         return txt
+
+    def open_url_v5(self,url):
+        """
+        自动编码获取内容
+
+        >>> open_url_v5(url)
+
+
+        """
+        raw_html = urllib.request.urlopen(url).read()
+    #     raw_html = requests.urlopen(url).read()
+        if not raw_html:
+            return ''
+        best_match = ('', 0)
+        for charset in ['utf-8', 'gbk', 'big5', 'gb18030']:
+            try:
+                unicode_html = raw_html.decode(charset, 'ignore')
+                guess_html = unicode_html.encode(charset)
+                if len(guess_html) == len(raw_html):
+                    best_match = (charset, len(guess_html))
+                    break
+                elif len(guess_html) > best_match[1]:
+                    best_match = (charset, len(guess_html))
+            except:
+                pass
+        raw_html = raw_html.decode(best_match[0], 'ignore').encode('utf-8')
+        return raw_html

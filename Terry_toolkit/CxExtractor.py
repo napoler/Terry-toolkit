@@ -1,7 +1,9 @@
+
 import re
 import chardet
-#from url import Url as turl
-import Terry_toolkit as tkit
+#from .url import Url as turl
+from . import turl
+#import .url.Url as turl
 import requests
 #https://github.com/chrislinan/cx-extractor-python/blob/master/CxExtractor.py
 
@@ -96,6 +98,8 @@ class CxExtractor:
         return s
 
     def filter_tags(self, htmlstr):
+        """过滤掉html
+        """
         re_doctype = re.compile('<![DOCTYPE|doctype].*>')
         re_nav = re.compile('<nav.+</nav>')
         re_cdata = re.compile('//<!\[CDATA\[.*//\]\]>', re.DOTALL)
@@ -159,7 +163,7 @@ class CxExtractor:
 
         """
 
-        dourl=tkit.Url()
+        dourl=turl.Url()
         html = dourl.open_url(url=url)
 
         if html:
@@ -176,7 +180,7 @@ class CxExtractor:
         >>> url_text(url)
 
         """
-        dourl=tkit.Url()
+        dourl=turl.Url()
         html = dourl.open_url(url=url)
 
         if html:
@@ -185,5 +189,11 @@ class CxExtractor:
             content = self.filter_tags_no_br(str(html))
             text = self.getText(content)
             return text
-#turl="http://www.sohu.com/a/227667958_604442"
-#CxExtractor().url_text(url = turl)
+#myurl="https://baike.baidu.com/item/%E6%88%91%E5%9C%A8%E5%A4%A7%E7%90%86%E5%AF%BA%E5%BD%93%E5%AE%A0%E7%89%A9"
+#items = CxExtractor().url_text_no_br(url = myurl)
+#print('**'*50)
+#print(items)
+#items= tkit.Text().text_processing(items)
+
+#print('**'*50)
+#print(items)

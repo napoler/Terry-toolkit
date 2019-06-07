@@ -28,3 +28,5 @@ from .CxExtractor import *
 from .turl import *
 from .SearchBaidu import *
 # from .TextRank4ZH import TextRank4ZH
+from .list import *
+
