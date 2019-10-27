@@ -17,20 +17,23 @@ def read_requirements(filename):
 
 setup(
     name='Terry_toolkit',
-    version='0.0.1.6.2.8.5v'+str(time.time()),
+    version='0.0.1.6.2.8.5'+str(time.time()),
     description='Terry toolkit',
     author='Terry Chan',
     author_email='napoler2008@gmail.com',
     url='https://terry-toolkit.terrychan.org/zh/master/',
-    install_requires=read_requirements('requirements.txt'),  # 指定需要安装的依赖
-    # install_requires=[
-    #     'beautifulsoup4==4.7.1',
-    #     'bs4==0.0.1',
-    #     'MagicBaidu==0.0.9',
-    #     'requests==2.21.0',
-    #     'textrank4zh==0.3'
+    # install_requires=read_requirements('requirements.txt'),  # 指定需要安装的依赖
+    install_requires=[
+        'beautifulsoup4==4.7.1',
+        'bs4==0.0.1',
+        'MagicBaidu==0.0.9',
+        'requests==2.21.0',
+        'textrank4zh==0.3',
+        'readability-lxml==0.7.1',
+        'html2text==2019.9.26'
 
-    # ],
+
+    ],
     packages=['Terry_toolkit'])
     # install_requires=[
     #     # asn1crypto==0.24.0

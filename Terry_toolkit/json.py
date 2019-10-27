@@ -5,14 +5,14 @@ class Json:
   """
   def __init__(self,file_path="data.json"):
     self.file_path=file_path
-  def save_json(self,token):
+  def save(self,token):
     """
     保存数据函数
     """
     with open(self.file_path,"w") as f:
       json.dump(token,f)
-      print("加载入文件完成...")
-  def load_json(self):
+      # print("加载入文件完成...")
+  def load(self):
     """
     加载数据
     """
@@ -28,4 +28,4 @@ Json().save_json(token)
 Json().load_json()
 
 
-""""
+"""
