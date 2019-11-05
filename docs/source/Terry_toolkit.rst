@@ -12,7 +12,9 @@ Submodules
    Terry_toolkit.crawler_baidu
    Terry_toolkit.dict_get
    Terry_toolkit.file
+   Terry_toolkit.list
    Terry_toolkit.text
+   Terry_toolkit.tjson
    Terry_toolkit.turl
 
 Module contents
