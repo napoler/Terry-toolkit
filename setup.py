@@ -17,7 +17,7 @@ def read_requirements(filename):
 
 setup(
     name='Terry_toolkit',
-    version='0.0.1.6.2.8.5'+str(time.time()),
+    version='0.0.1.6.2.8.6'+str(time.time()),
     description='Terry toolkit',
     author='Terry Chan',
     author_email='napoler2008@gmail.com',
