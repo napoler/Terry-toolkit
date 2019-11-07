@@ -19,17 +19,26 @@ class Json:
     """
     加载数据
     """
+    lines=[]
+    for line in self.auto_load():
+      lines.append(line)
+    return lines
+
+  def auto_load(self):
+    """
+    加载数据
+    
+    """
     # with open(self.file_path, "r") as json_file:
     #   data = json.load(json_file)
     #   return data
     f = open(self.file_path,"r")  
     # lines = f.readlines()#读取全部内容  
-    lines=[]
+    # lines=[]
     for line in f.readlines():
       # line.replace("\n","")
-      lines.append(json.loads(line[:-1]))
-    return lines
-
+      lines.append(json.loads(line[:-1])
+      yield json.loads(line[:-1]
 """
 #使用
 data=[{'a':'ess'}]
