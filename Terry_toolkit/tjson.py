@@ -1,4 +1,5 @@
 import json
+
 class Json:
   """
   处理json信息函数
@@ -27,7 +28,7 @@ class Json:
   def auto_load(self):
     """
     加载数据
-    
+
     """
     # with open(self.file_path, "r") as json_file:
     #   data = json.load(json_file)
@@ -36,9 +37,8 @@ class Json:
     # lines = f.readlines()#读取全部内容  
     # lines=[]
     for line in f.readlines():
-      # line.replace("\n","")
-      lines.append(json.loads(line[:-1])
-      yield json.loads(line[:-1]
+      data=json.loads(line[:-1])
+      yield data
 """
 #使用
 data=[{'a':'ess'}]
