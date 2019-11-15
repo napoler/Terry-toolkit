@@ -44,5 +44,5 @@ from unqlite import *
 """
 from cacheout import *
 # cache = LFUCache()
-from sentence_parser import *
-from triple_extraction import *
+from .sentence_parser import *
+from .triple_extraction import *

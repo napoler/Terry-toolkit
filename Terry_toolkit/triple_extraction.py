@@ -3,7 +3,7 @@
 # File: triple_extraction.py
 # Author: lhy<lhy_in_blcu@126.com,https://huangyong.github.io>
 # Date: 18-3-12
-from sentence_parser import *
+from . import LtpParser
 import re
 
 class TripleExtractor:
