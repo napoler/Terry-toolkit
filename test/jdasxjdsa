@@ -1,0 +1,34 @@
+Help on package Terry_toolkit:
+
+NNAAMMEE
+    Terry_toolkit
+
+DDEESSCCRRIIPPTTIIOONN
+    # Terry_toolkit
+    ===
+    
+    各种工具合集
+    文档地址
+    http://terry-toolkit.terrychan.org/zh/master/
+    
+    # 安装
+    > pip3 install Terry_toolkit
+
+PPAACCKKAAGGEE  CCOONNTTEENNTTSS
+    CxExtractor
+    SearchBaidu
+    TextRank4ZH
+    crawler_baidu
+    csv
+    db
+    dict_get
+    file
+    help
+    list
+    text
+    tjson
+    turl
+
+FFIILLEE
+    /mnt/data/dev/github/Terry-toolkit/Terry-toolkit/Terry_toolkit/__init__.py
+

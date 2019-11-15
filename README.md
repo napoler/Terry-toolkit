@@ -60,6 +60,7 @@ make html
 其它库推荐
 
 cacheout  #函数缓存
+unqlite nosql数据库已经加载
 pip install MagicBaidu
 
 

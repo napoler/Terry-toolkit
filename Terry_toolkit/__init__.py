@@ -22,6 +22,7 @@ http://terry-toolkit.terrychan.org/zh/master/
 
 from .file import *
 from .text import *
+# from .text import Text
 from .dict_get import *
 from .crawler_baidu import *
 from .CxExtractor import *
@@ -31,3 +32,17 @@ from .SearchBaidu import *
 from .list import *
 from .tjson import *
 from.csv import *
+from.db import *
+
+# https://www.helplib.com/GitHub/article_112235
+# https://unqlite-python.readthedocs.io/en/latest/quickstart.html#key-value-features
+from unqlite import *
+"""
+#cacheout缓存模块
+# from cacheout import Cache# 如果选择LFUCache 就导入即可
+# https://pypi.org/project/cacheout/
+"""
+from cacheout import *
+# cache = LFUCache()
+from sentence_parser import *
+from triple_extraction import *
