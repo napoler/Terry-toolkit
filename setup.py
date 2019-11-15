@@ -17,7 +17,7 @@ def read_requirements(filename):
 
 setup(
     name='Terry_toolkit',
-    version='0.0.1.7',
+    version='0.0.1.7.2',
     description='Terry toolkit',
     author='Terry Chan',
     author_email='napoler2008@gmail.com',
@@ -30,7 +30,10 @@ setup(
         'requests==2.21.0',
         'textrank4zh==0.3',
         'readability-lxml==0.7.1',
-        'html2text==2019.9.26'
+        'html2text==2019.9.26',
+        'pyltp==0.2.1',
+        'unqlite==0.7.1',
+        'cacheout==0.11.2'
 
 
     ],
