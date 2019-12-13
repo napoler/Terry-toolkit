@@ -23,11 +23,13 @@ class Db:
         自动转换成字典
 
         """
-        value=str(self.db[key],"utf-8")
+        
         # print('value',value)
         try:
+            value=str(self.db[key],"utf-8")
             value=ast.literal_eval(value)
         except:
+            return []
             pass
         return value
     def delete(self,key):

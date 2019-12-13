@@ -5,10 +5,100 @@
 # Date: 18-3-12
 from . import LtpParser
 import re
-
+import os
+from pyltp import Segmentor, Postagger, Parser, NamedEntityRecognizer, SementicRoleLabeller
 class TripleExtractor:
-    def __init__(self):
-        self.parser = LtpParser()
+    # def __init__(self):
+    #     self.parser = LtpParser()
+    # def __init__(self,LTP_DIR = "/mnt/data/dev/model/ltp/ltp_data_v3.4.0"):
+        
+    #     self.segmentor = Segmentor()
+    #     self.segmentor.load(os.path.join(LTP_DIR, "cws.model"))
+
+    #     self.postagger = Postagger()
+    #     self.postagger.load(os.path.join(LTP_DIR, "pos.model"))
+
+    #     self.parser = Parser()
+    #     self.parser.load(os.path.join(LTP_DIR, "parser.model"))
+
+    #     self.recognizer = NamedEntityRecognizer()
+    #     self.recognizer.load(os.path.join(LTP_DIR, "ner.model"))
+
+    #     self.labeller = SementicRoleLabeller()
+    #     self.labeller.load(os.path.join(LTP_DIR, 'pisrl.model'))
+    def __init__(self,LTP_DIR = "/mnt/data/dev/model/ltp/ltp_data_v3.4.0"):
+        
+        self.segmentor = Segmentor()
+        self.segmentor.load(os.path.join(LTP_DIR, "cws.model"))
+
+        self.postagger = Postagger()
+        self.postagger.load(os.path.join(LTP_DIR, "pos.model"))
+
+        self.parser = Parser()
+        self.parser.load(os.path.join(LTP_DIR, "parser.model"))
+
+        self.recognizer = NamedEntityRecognizer()
+        self.recognizer.load(os.path.join(LTP_DIR, "ner.model"))
+
+        self.labeller = SementicRoleLabeller()
+        self.labeller.load(os.path.join(LTP_DIR, 'pisrl.model'))
+    def __del__(self):
+        # self.segmentor.release()  
+        pass
+    '''语义角色标注'''
+    def format_labelrole(self, words, postags):
+        arcs = self.parser.parse(words, postags)
+        roles = self.labeller.label(words, postags, arcs)
+        roles_dict = {}
+        for role in roles:
+            roles_dict[role.index] = {arg.name:[arg.name,arg.range.start, arg.range.end] for arg in role.arguments}
+        return roles_dict
+
+    '''句法分析---为句子中的每个词语维护一个保存句法依存儿子节点的字典'''
+    def build_parse_child_dict(self, words, postags, arcs):
+        child_dict_list = []
+        format_parse_list = []
+        for index in range(len(words)):
+            child_dict = dict()
+            for arc_index in range(len(arcs)):
+                if arcs[arc_index].head == index+1:   #arcs的索引从1开始
+                    if arcs[arc_index].relation in child_dict:
+                        child_dict[arcs[arc_index].relation].append(arc_index)
+                    else:
+                        child_dict[arcs[arc_index].relation] = []
+                        child_dict[arcs[arc_index].relation].append(arc_index)
+            child_dict_list.append(child_dict)
+        rely_id = [arc.head for arc in arcs]  # 提取依存父节点id
+        relation = [arc.relation for arc in arcs]  # 提取依存关系
+        heads = ['Root' if id == 0 else words[id - 1] for id in rely_id]  # 匹配依存父节点词语
+        for i in range(len(words)):
+            # ['ATT', '李克强', 0, 'nh', '总理', 1, 'n']
+            a = [relation[i], words[i], i, postags[i], heads[i], rely_id[i]-1, postags[rely_id[i]-1]]
+            format_parse_list.append(a)
+
+        return child_dict_list, format_parse_list
+    def ner(self,words, postags):
+        """
+        获取ner 命名实体
+        """
+        # netags = recognizer.recognize(words, postags)
+        netags=self.recognizer.recognize(words, postags)
+        return netags
+
+    '''parser主函数'''
+    def parser_main(self, sentence):
+        words = list(self.segmentor.segment(sentence))
+        # print(words)
+        postags = list(self.postagger.postag(words))
+        arcs = self.parser.parse(words, postags)
+        child_dict_list, format_parse_list = self.build_parse_child_dict(words, postags, arcs)
+        roles_dict = self.format_labelrole(words, postags)
+        netags=self.ner(words, postags)
+        
+        return words, postags, child_dict_list, roles_dict, format_parse_list,netags
+
+    #以上为解析函数
+
 
     '''文章分句处理, 切分长句，冒号，分号，感叹号等做切分标识'''
     def split_sents(self, content):
@@ -18,22 +108,33 @@ class TripleExtractor:
     def ruler1(self, words, postags, roles_dict, role_index):
         v = words[role_index]
         role_info = roles_dict[role_index]
+        # print('words',v)
+        # print('role_info',role_info)
+        # print("postags",postags)
+        # for p,w in enumerate(zip(words, postags)):
+        #     print(p,w)
+
         if 'A0' in role_info.keys() and 'A1' in role_info.keys():
-            s = ''.join([words[word_index] for word_index in range(role_info['A0'][1], role_info['A0'][2]+1) if
-                         postags[word_index][0] not in ['w', 'u', 'x'] and words[word_index]])
+            # s = ''.join([words[word_index] for word_index in range(role_info['A0'][1], role_info['A0'][2]+1) if
+            #              postags[word_index][0] not in ['w', 'u', 'x','i','q'] and words[word_index]])
             o = ''.join([words[word_index] for word_index in range(role_info['A1'][1], role_info['A1'][2]+1) if
                          postags[word_index][0] not in ['w', 'u', 'x'] and words[word_index]])
+
+            s = ''.join([words[word_index] for word_index in range(role_info['A0'][1], role_info['A0'][2]+1) if
+                         postags[word_index][0] not in ['w', 'u', 'x','i','q'] and words[word_index]])
+            # o = ''.join([words[word_index] for word_index in range(role_info['A1'][1], role_info['A1'][2]+1) if
+            #              postags[word_index][0] not in ['w', 'u', 'x','i','q','m'] and words[word_index]])
             if s  and o:
-                return '1', [s, v, o]
+                return '1', [s, v, o,"s, v, o,利用语义角色标注"]
         # elif 'A0' in role_info:
         #     s = ''.join([words[word_index] for word_index in range(role_info['A0'][1], role_info['A0'][2] + 1) if
         #                  postags[word_index][0] not in ['w', 'u', 'x']])
         #     if s:
-        #         return '2', [s, v]
+        #         return '2', [s, v,"s, v"]
         # elif 'A1' in role_info:
         #     o = ''.join([words[word_index] for word_index in range(role_info['A1'][1], role_info['A1'][2]+1) if
         #                  postags[word_index][0] not in ['w', 'u', 'x']])
-        #     return '3', [v, o]
+        #     return '3', [v, o,"v, o"]
         return '4', []
 
     '''三元组抽取主函数'''
@@ -47,6 +148,12 @@ class TripleExtractor:
                 if flag == '1':
                     svos.append(triple)
                     tmp = 0
+                elif flag == '2':
+                    svos.append(triple)
+                    tmp = 0
+                elif flag == '3':
+                    svos.append(triple)
+                    tmp = 0
             if tmp == 1:
                 # 如果语义角色标记为空，则使用依存句法进行抽取
                 # if postags[index] == 'v':
@@ -58,7 +165,7 @@ class TripleExtractor:
                         r = words[index]
                         e1 = self.complete_e(words, postags, child_dict_list, child_dict['SBV'][0])
                         e2 = self.complete_e(words, postags, child_dict_list, child_dict['VOB'][0])
-                        svos.append([e1, r, e2])
+                        svos.append([e1, r, e2,"主谓宾"])
 
                     # 定语后置，动宾关系
                     relation = arcs[index][0]
@@ -72,7 +179,7 @@ class TripleExtractor:
                             if temp_string == e1[:len(temp_string)]:
                                 e1 = e1[len(temp_string):]
                             if temp_string not in e1:
-                                svos.append([e1, r, e2])
+                                svos.append([e1, r, e2,"动宾"])
                     # 含有介宾关系的主谓动补关系
                     if 'SBV' in child_dict and 'CMP' in child_dict:
                         e1 = self.complete_e(words, postags, child_dict_list, child_dict['SBV'][0])
@@ -80,7 +187,7 @@ class TripleExtractor:
                         r = words[index] + words[cmp_index]
                         if 'POB' in child_dict_list[cmp_index]:
                             e2 = self.complete_e(words, postags, child_dict_list, child_dict_list[cmp_index]['POB'][0])
-                            svos.append([e1, r, e2])
+                            svos.append([e1, r, e2,"主谓动补"])
         return svos
 
     '''对找出的主语或者宾语进行扩展'''
@@ -103,8 +210,13 @@ class TripleExtractor:
     def triples_main(self, content):
         sentences = self.split_sents(content)
         svos = []
+        print(sentences)
         for sentence in sentences:
-            words, postags, child_dict_list, roles_dict, arcs = self.parser.parser_main(sentence)
+            words, postags, child_dict_list, roles_dict, arcs,netags = self.parser_main(sentence)
+            # print(words, postags, child_dict_list, roles_dict,netags)
+            # print(words)
+            for w,p in zip(words, postags):
+                print(w,p)
             svo = self.ruler2(words, postags, child_dict_list, arcs, roles_dict)
             svos += svo
 
@@ -133,5 +245,5 @@ def test():
     extractor = TripleExtractor()
     svos = extractor.triples_main(content2)
     print('svos', svos)
-
-# test()
+if __name__ == '__main__':
+    test()

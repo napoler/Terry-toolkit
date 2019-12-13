@@ -44,5 +44,15 @@ from unqlite import *
 """
 from cacheout import *
 # cache = LFUCache()
-from .sentence_parser import *
-from .triple_extraction import *
+# from .sentence_parser import *
+# from .triple_extraction import *
+#三元组获取
+from .ie import *
+
+# from .bootstrap import *
+
+#加载各种的内置资源
+from .resources import *
+
+
+from .pkl import *

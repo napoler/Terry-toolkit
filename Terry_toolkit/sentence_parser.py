@@ -23,7 +23,9 @@ class LtpParser:
 
         self.labeller = SementicRoleLabeller()
         self.labeller.load(os.path.join(LTP_DIR, 'pisrl.model'))
-
+    def __del__(self):
+        # self.segmentor.release()  
+        pass
     '''语义角色标注'''
     def format_labelrole(self, words, postags):
         arcs = self.parser.parse(words, postags)
@@ -67,12 +69,12 @@ class LtpParser:
         return words, postags, child_dict_list, roles_dict, format_parse_list
 
 
-if __name__ == '__main__':
-    parse = LtpParser()
-    sentence = '李克强总理今天来我家了,我感到非常荣幸'
-    words, postags, child_dict_list, roles_dict, format_parse_list = parse.parser_main(sentence)
-    print(words, len(words))
-    print(postags, len(postags))
-    print(child_dict_list, len(child_dict_list))
-    print(roles_dict)
-    print(format_parse_list, len(format_parse_list))
+# if __name__ == '__main__':
+#     parse = LtpParser()
+#     sentence = '李克强总理今天来我家了,我感到非常荣幸'
+#     words, postags, child_dict_list, roles_dict, format_parse_list = parse.parser_main(sentence)
+#     print(words, len(words))
+#     print(postags, len(postags))
+#     print(child_dict_list, len(child_dict_list))
+#     print(roles_dict)
+#     print(format_parse_list, len(format_parse_list))

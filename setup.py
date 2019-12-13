@@ -14,15 +14,20 @@ def read_file(filename):
 def read_requirements(filename):
     return [line.strip() for line in read_file(filename).splitlines()
             if not line.startswith('#')]
+long_description="""
 
+这里是说明
+"""
 setup(
     name='Terry_toolkit',
-    version='0.0.1.7.2',
+    version='0.0.1.7.5',
     description='Terry toolkit',
     author='Terry Chan',
     author_email='napoler2008@gmail.com',
     url='https://terry-toolkit.terrychan.org/zh/master/',
     # install_requires=read_requirements('requirements.txt'),  # 指定需要安装的依赖
+    long_description=long_description,
+    long_description_content_type="text/markdown",
     install_requires=[
         'beautifulsoup4==4.7.1',
         'bs4==0.0.1',
@@ -31,9 +36,11 @@ setup(
         'textrank4zh==0.3',
         'readability-lxml==0.7.1',
         'html2text==2019.9.26',
-        'pyltp==0.2.1',
+        # 'pyltp==0.2.1',
         'unqlite==0.7.1',
-        'cacheout==0.11.2'
+        'cacheout==0.11.2',
+        'harvesttext==0.5.4.2',
+        'tqdm==4.38.0'
 
 
     ],
@@ -74,7 +81,8 @@ setup(
     # ],
 
     #install_requires=['jieba'])
-
-# python3 setup.py sdist
-# #python3 setup.py install
-# python3 setup.py sdist upload
+"""
+python3 setup.py sdist
+#python3 setup.py install
+python3 setup.py sdist upload
+"""

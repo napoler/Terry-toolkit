@@ -5,6 +5,10 @@ from textrank4zh import TextRank4Keyword, TextRank4Sentence
 from readability import Document
 import html2text
 
+from harvesttext.resources import get_qh_typed_words,get_baidu_stopwords
+from harvesttext import loadHT,saveHT
+from harvesttext import HarvestText
+from tqdm import tqdm
 class Text:
     """
     文本处理函数
@@ -14,6 +18,94 @@ class Text:
     """
     def __init__(self):
         pass
+    def load_ht(self,path=None):
+        """
+        加载模型
+
+        """
+        if path == None:
+            self.ht = HarvestText()        
+        else:
+            self.ht = loadHT(path)
+
+    
+    # for span, entity in t.ht.entity_linking(text):
+    # 	print(span, entity)
+    def named_entity_recognition(self,text):
+        """
+        识别文字中的实体
+        """
+        self.clear(text)
+        entity_type_dict={}
+        for word,tag0 in self.ht.posseg(text):
+            # 三种前缀代表：人名（nr），地名（ns），机构名（nt）
+            # print(x)
+            # tag0 = str(x.nature)
+            # print(word,tag0)
+            if tag0.startswith("nr"):
+                entity_type_dict[word] = "人名"
+            elif tag0.startswith("ns"):
+                entity_type_dict[word] = "地名"
+            elif tag0.startswith("nt"):
+                entity_type_dict[word] = "机构名"
+            elif tag0.startswith("nz"):
+                entity_type_dict[word] = "其他专名"
+            elif tag0.startswith("动物"):
+                entity_type_dict[word] = "动物"
+        
+        # print(entity_type_dict)
+        return entity_type_dict
+
+    def add_words(self,new_words=[],path="ht_model"):
+        """
+        添加新词
+
+
+        >>> add_words(new_words,path)
+        """
+        # print("进行新词发现")
+        # max_len=10000
+        typed_words, stopwords = get_qh_typed_words(), get_baidu_stopwords()
+        self.ht.add_typed_words(typed_words)
+        self.ht.add_new_words(new_words)
+        saveHT(self.ht,path)
+        print("模型保存",path)        
+    def find_new_words(self,text,path="ht_model"):
+        """
+        新词发现函数
+
+
+        >>> find_new_words(text,path)
+        """
+        print("进行新词发现")
+        max_len=10000
+        typed_words, stopwords = get_qh_typed_words(), get_baidu_stopwords()
+        self.ht.add_typed_words(typed_words)
+        #返回关于新词质量的一系列信息，允许手工改进筛选(pd.DataFrame型)
+        for i in tqdm(range(len(text)//max_len+1)):
+                #截取内容
+                # one.append(text[i*max_len:(i+1)*max_len]+"")
+                b=text[i*max_len:(i+1)*max_len]
+                if len(b)>10:
+                    new_words_info=self.ht.word_discover(b)
+                    new_words=new_words_info.index.tolist()
+                    # print(new_words)
+                    print("新词数量",len(new_words))
+                    words=self.ht.seg(b)
+                    for word in new_words:
+                        if word in words:
+                            new_words.remove(word)
+                    print(new_words)
+                    print("去重复后数量",len(new_words))    
+                    self.ht.add_new_words(new_words)
+                    saveHT(self.ht,path)
+        # # new_words_info = self.ht.word_discover(text)
+        # #new_words_info = ht.word_discover(para, threshold_seeds=["武磊"])  
+        # new_words = new_words_info.index.tolist()
+        # # print(new_words)
+        # print("新词数量",len(new_words))
+        saveHT(self.ht,path)
+        print("模型保存",path)
     # 遍历目录文件夹
     def sentence_segmentation_v1(self,para):
         """分句函数
