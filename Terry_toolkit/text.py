@@ -9,6 +9,8 @@ from harvesttext.resources import get_qh_typed_words,get_baidu_stopwords
 from harvesttext import loadHT,saveHT
 from harvesttext import HarvestText
 from tqdm import tqdm
+import  hashlib
+
 class Text:
     """
     文本处理函数
@@ -18,6 +20,16 @@ class Text:
     """
     def __init__(self):
         pass
+    def md5(self,string):
+        # 对要加密的字符串进行指定编码
+        string = string.encode(encoding ='UTF-8')
+        # md5加密
+        # print(hashlib.md5(string))
+        # 将md5 加密结果转字符串显示
+        string = hashlib.md5(string).hexdigest()
+        # print(string)
+        return string
+
     def load_ht(self,path=None):
         """
         加载模型

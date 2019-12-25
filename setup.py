@@ -20,7 +20,7 @@ long_description="""
 """
 setup(
     name='Terry_toolkit',
-    version='0.0.1.7.5',
+    version='0.0.1.7.6',
     description='Terry toolkit',
     author='Terry Chan',
     author_email='napoler2008@gmail.com',
