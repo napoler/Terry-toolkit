@@ -20,7 +20,7 @@ long_description="""
 """
 setup(
     name='Terry_toolkit',
-    version='0.0.1.7.6',
+    version='0.0.1.7.7',
     description='Terry toolkit',
     author='Terry Chan',
     author_email='napoler2008@gmail.com',
@@ -40,7 +40,8 @@ setup(
         'unqlite==0.7.1',
         'cacheout==0.11.2',
         'harvesttext==0.5.4.2',
-        'tqdm==4.38.0'
+        'tqdm==4.38.0',
+        'sqlitedict==1.6.0'
 
 
     ],
