@@ -20,7 +20,7 @@ long_description="""
 """
 setup(
     name='Terry_toolkit',
-    version='0.0.1.7.7',
+    version='0.0.1.7.8',
     description='Terry toolkit',
     author='Terry Chan',
     author_email='napoler2008@gmail.com',
@@ -36,13 +36,14 @@ setup(
         'textrank4zh==0.3',
         'readability-lxml==0.7.1',
         'html2text==2019.9.26',
-        # 'pyltp==0.2.1',
+        'pyltp==0.2.1',
         'unqlite==0.7.1',
         'cacheout==0.11.2',
         'harvesttext==0.5.4.2',
         'tqdm==4.38.0',
         'sqlitedict==1.6.0'
-
+        'Whoosh==2.7.4',
+        'plyvel==1.1.0',
 
     ],
     packages=['Terry_toolkit'])
@@ -83,6 +84,8 @@ setup(
 
     #install_requires=['jieba'])
 """
+pip freeze > requirements.txt
+
 python3 setup.py sdist
 #python3 setup.py install
 python3 setup.py sdist upload
