@@ -48,9 +48,10 @@ class File:
 
             for filename in file_name_list:
                 apath = os.path.join(maindir, filename)#合并成一个完整路径
-                result.append(apath)
+                yield apath
+        #         result.append(apath)
 
-        return result
+        # return result
 
     # 遍历目录文件夹
     def file_List(self, path, type='txt'):
@@ -67,9 +68,10 @@ class File:
         for file in self.all_path(dirname = path):
 
             if file.endswith("." + type):
+                yield file
                 # print(path+file)
-                files.append(file)
-        return files
+        #         files.append(file)
+        # return files
 
     #打开文件
     def open_file(self, file):

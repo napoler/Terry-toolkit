@@ -7,6 +7,9 @@ from . import LtpParser
 import re
 import os
 from pyltp import Segmentor, Postagger, Parser, NamedEntityRecognizer, SementicRoleLabeller
+from pympler import tracker
+import gc
+
 class TripleExtractor:
     # def __init__(self):
     #     self.parser = LtpParser()
@@ -27,7 +30,8 @@ class TripleExtractor:
     #     self.labeller = SementicRoleLabeller()
     #     self.labeller.load(os.path.join(LTP_DIR, 'pisrl.model'))
     def __init__(self,LTP_DIR = "/mnt/data/dev/model/ltp/ltp_data_v3.4.0"):
-        
+        self.LTP_DIR=LTP_DIR
+        tr = tracker.SummaryTracker()
         self.segmentor = Segmentor()
         self.segmentor.load(os.path.join(LTP_DIR, "cws.model"))
 
@@ -39,24 +43,33 @@ class TripleExtractor:
 
         self.recognizer = NamedEntityRecognizer()
         self.recognizer.load(os.path.join(LTP_DIR, "ner.model"))
-
-        self.labeller = SementicRoleLabeller()
-        self.labeller.load(os.path.join(LTP_DIR, 'pisrl.model'))
+        tr.print_diff()
+        # self.labeller = SementicRoleLabeller()
+        # self.labeller.load(os.path.join(LTP_DIR, 'pisrl.model'))
     def __del__(self):
         self.segmentor.release()  
         self.postagger.release()
         self.recognizer.release()
         self.parser.release()
-        self.labeller.release()
+        # self.labeller.release()
 
         pass
+    def load(self):
+        LTP_DIR=self.LTP_DIR
+
     '''语义角色标注'''
     def format_labelrole(self, words, postags):
+        labeller = SementicRoleLabeller()
+        labeller.load(os.path.join(self.LTP_DIR, 'pisrl.model'))
         arcs = self.parser.parse(words, postags)
-        roles = self.labeller.label(words, postags, arcs)
+        roles = labeller.label(words, postags, arcs)
         roles_dict = {}
         for role in roles:
             roles_dict[role.index] = {arg.name:[arg.name,arg.range.start, arg.range.end] for arg in role.arguments}
+        print(roles_dict)
+        labeller.release()
+        del labeller
+        gc.collect()
         return roles_dict
 
     '''句法分析---为句子中的每个词语维护一个保存句法依存儿子节点的字典'''
@@ -118,23 +131,49 @@ class TripleExtractor:
         # print("postags",postags)
         # for p,w in enumerate(zip(words, postags)):
         #     print(p,w)
+        guanxi=v
+        remove_id=[]
+        # try:
+        #     if postags[role_index-1]=='d':
+        #         guanxi=words[role_index-1]+guanxi
+        #         remove_id.append(role_index-1)
+        # except:
+        #     pass
+        try:
+            if postags[role_index+1]=='p':
+                # print("pp")
+                guanxi=guanxi+words[role_index+1]
+                remove_id.append(role_index+1)
+        except:
+            pass
+        # print(guanxi)
 
         if 'A0' in role_info.keys() and 'A1' in role_info.keys():
             # s = ''.join([words[word_index] for word_index in range(role_info['A0'][1], role_info['A0'][2]+1) if
             #              postags[word_index][0] not in ['w', 'u', 'x','i','q'] and words[word_index]])
             o = ''.join([words[word_index] for word_index in range(role_info['A1'][1], role_info['A1'][2]+1) if
                         #  postags[word_index][0] not in ['w', 'u', 'x'] and words[word_index]])
-                        postags[word_index][0] not in [''] and words[word_index]])
+                        postags[word_index][0] not in [''] and words[word_index] and word_index not in remove_id ])
 
-            s = ''.join([words[word_index] for word_index in range(role_info['A0'][1], role_info['A0'][2]+1) if
-                        #  postags[word_index][0] not in ['w', 'u', 'x','i','q'] and words[word_index]])
-                        # postags[word_index][0] not in ['w', 'u', 'x'] and words[word_index]])
-                        postags[word_index][0] not in [''] and words[word_index]])
+            # s = ''.join([words[word_index] for word_index in range(role_info['A0'][1], role_info['A0'][2]+1) if
+            #             #  postags[word_index][0] not in ['w', 'u', 'x','i','q'] and words[word_index]])
+            #             # postags[word_index][0] not in ['w', 'u', 'x'] and words[word_index]])
+            #             postags[word_index][0] not in [''] and words[word_index] and word_index not in remove_id ])
+
+            s_ids = [word_index for word_index in range(role_info['A0'][1], role_info['A0'][2]+1) if
+                        postags[word_index][0] not in [''] and words[word_index] and word_index not in remove_id ]
+            # 移除指代词形成的内容
+            if len(s_ids)==1 and postags[s_ids[0]] in ['u','r']:
+                return '4', [""]
+                pass
+            else:
+                s=''.join([words[word_index] for word_index in s_ids ])
             # o = ''.join([words[word_index] for word_index in range(role_info['A1'][1], role_info['A1'][2]+1) if
             #              postags[word_index][0] not in ['w', 'u', 'x','i','q','m'] and words[word_index]])
             if s  and o:
                 # return '1', [s, v, o,"s, v, o,利用语义角色标注"]
-                return '1', [s, v, o,"主谓宾"]
+                # return '1', [s, v, o,"主谓宾"]
+                return '1', [s, guanxi, o,"主谓宾"]
         # elif 'A0' in role_info:
         #     s = ''.join([words[word_index] for word_index in range(role_info['A0'][1], role_info['A0'][2] + 1) if
         #                  postags[word_index][0] not in ['w', 'u', 'x']])
@@ -174,6 +213,16 @@ class TripleExtractor:
                         r = words[index]
                         e1 = self.complete_e(words, postags, child_dict_list, child_dict['SBV'][0])
                         e2 = self.complete_e(words, postags, child_dict_list, child_dict['VOB'][0])
+
+                        # s_ids = [word_index for word_index in range(role_info['A0'][1], role_info['A0'][2]+1) if
+                        #             postags[word_index][0] not in [''] and words[word_index] and word_index not in remove_id ]
+                        # # 移除指代词形成的内容
+                        # if len(s_ids)==1 and postags[s_ids[0]] in ['u','r']:
+                        #     return '4', [""]
+                        #     pass
+                        # else:
+                        #     s=''.join([words[word_index] for word_index in s_ids ])
+
                         svos.append([e1, r, e2,'主谓宾'])
 
                     # 定语后置，动宾关系
@@ -225,16 +274,21 @@ class TripleExtractor:
             # print(netags)
             # for word in netags:
             #     print(word)
-            # for p,w in enumerate(zip(words, postags,netags)):
-            #     print(p,w)
+            ner=[]
+            for p,item in enumerate(zip(words, postags,netags)):
+                w,postag,netag=item
+                # print(p,item)
+                if netag!="O":
+                    ner.append(w)
 
+            # print(ner)
             # print(words, postags, child_dict_list, roles_dict,netags)
             # print(words)
             # for w,p in zip(words, postags):
                 # print(w,p)
             svo = self.ruler2(words, postags, child_dict_list, arcs, roles_dict)
             # svos += svo
-            svos.append((sentence,svo))
+            svos.append((sentence,svo,ner))
 
         return svos
 

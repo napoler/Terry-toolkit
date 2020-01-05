@@ -18,7 +18,9 @@ class Text:
 
 
     """
-    def __init__(self):
+    def __init__(self,ht_model=None):
+        self.ht_model=ht_model
+
         pass
     def md5(self,string):
         # 对要加密的字符串进行指定编码
@@ -30,15 +32,15 @@ class Text:
         # print(string)
         return string
 
-    def load_ht(self,path=None):
+    def load_ht(self):
         """
         加载模型
 
         """
-        if path == None:
+        if self.ht_model == None:
             self.ht = HarvestText()        
         else:
-            self.ht = loadHT(path)
+            self.ht = loadHT(self.ht_model)
 
     
     # for span, entity in t.ht.entity_linking(text):
@@ -67,22 +69,32 @@ class Text:
         
         # print(entity_type_dict)
         return entity_type_dict
-
-    def add_words(self,new_words=[],path="ht_model"):
+    def typed_words(self):
         """
-        添加新词
-
-
+        添加类型词
         >>> add_words(new_words,path)
         """
         # print("进行新词发现")
         # max_len=10000
         typed_words, stopwords = get_qh_typed_words(), get_baidu_stopwords()
         self.ht.add_typed_words(typed_words)
+        # self.ht.add_new_words(new_words)
+        saveHT(self.ht,self.ht_model)
+        print("模型保存",self.ht_model)       
+
+    def add_words(self,new_words=[]):
+        """
+        添加新词
+        >>> add_words(new_words,path)
+        """
+        # print("进行新词发现")
+        # max_len=10000
+        # typed_words, stopwords = get_qh_typed_words(), get_baidu_stopwords()
+        # self.ht.add_typed_words(typed_words)
         self.ht.add_new_words(new_words)
-        saveHT(self.ht,path)
-        print("模型保存",path)        
-    def find_new_words(self,text,path="ht_model"):
+        saveHT(self.ht,self.ht_model)
+        print("模型保存",self.ht_model)        
+    def find_new_words(self,text):
         """
         新词发现函数
 
@@ -110,14 +122,14 @@ class Text:
                     print(new_words)
                     print("去重复后数量",len(new_words))    
                     self.ht.add_new_words(new_words)
-                    saveHT(self.ht,path)
+                    saveHT(self.ht,self.ht_model)
         # # new_words_info = self.ht.word_discover(text)
         # #new_words_info = ht.word_discover(para, threshold_seeds=["武磊"])  
         # new_words = new_words_info.index.tolist()
         # # print(new_words)
         # print("新词数量",len(new_words))
-        saveHT(self.ht,path)
-        print("模型保存",path)
+        saveHT(self.ht,self.ht_model)
+        print("模型保存",self.ht_model)
     # 遍历目录文件夹
     def sentence_segmentation_v1(self,para):
         """分句函数

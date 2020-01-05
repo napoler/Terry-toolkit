@@ -19,14 +19,21 @@ class LDB:
     Plyvel is a fast and feature-rich Python interface to LevelDB.
     
     """
-    def __init__(self,path="tmp/lv.db"):
-        # path=os.path.join(path)
-        # print(path)
-        self.db = plyvel.DB(path, create_if_missing=True)
-    def __del__(self):
-       self.db.close()
-       del self.db
+    def __init__(self,path="tmp/lv.db",prefix="default"):
 
+        self.rootdb = plyvel.DB(path, create_if_missing=True)
+        #默认加载 default
+        self.load(prefix)
+    def __del__(self):
+       self.rootdb.close()
+       del self.rootdb
+    def load(self,prefix):
+        """
+        切换表前缀 类似表功能
+        """
+        prefix=self.tobytes(prefix)
+        self.db = self.rootdb.prefixed_db(prefix)
+        pass
     def tobytes(self,data):
         """
         数据转化为bytes
@@ -73,7 +80,8 @@ class LDB:
             self.put(key,value)
             pass #
         wb.write()
-
+    def decode(self,data):
+        return bytes.decode(data)
     def get(self,key):
         """
         获取数据
@@ -108,7 +116,7 @@ class LDB:
         # ...
         for key,value in self.db.iterator():
             # print(key)
-            yield self.get(key)
+            yield bytes.decode(key),self.get(key)
     def delete(self,key):
         """
         删除数据
@@ -131,6 +139,8 @@ class Db:
         # UnQLite.__init__(self,dbpath)
         self.db= UnQLite(dbpath)
         self.dbpath=dbpath
+    def __del__(self):
+        self.db.close()
     def add(self,key,value):
         """
         添加数据
@@ -158,11 +168,17 @@ class Db:
             return None
             pass
         return value
+    def get_all(self):
+        with self.db.cursor() as cursor:
+            for key, value in cursor:
+                yield key, self.get(key)
+
     def delete(self,key):
         """
         删除数据
         """
-        del self.db[key]
+        # del self.db[key]
+        self.db.delete(key)
     def col(self,key):
         self.col = self.db.collection(key)
         self.col.create()  # Create the collection if it does not exist.

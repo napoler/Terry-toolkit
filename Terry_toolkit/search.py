@@ -63,10 +63,10 @@ class Search:
             # from whoosh.writing import AsyncWriter
             # writer = AsyncWriter(ix,delay=0.25)
             for item in data:
-                print('item',item)
+                # print('item',item)
                 text =str(item['title'])+str(item['content'])+str(item['path'])
                 id=str(ttext.md5(text))
-                print('id',id)
+                # print('id',id)
 
                 # string="在python存入数据库时，如果数据库的主键不是自增方式，那么我们可能需要自己生成一个唯一标识符，现在最好的方法就是md5加密生成的32位作为主键，本文将会介绍python的两种自动生成唯一标识的方式。"
                 # print(ttext.md5(string))
@@ -102,6 +102,7 @@ class Search:
             # query = MultifieldParser(["symbol", "co_name"], ix.schema， group=syntax.OrGroup)
             # 检索标题中出现'文档'的文档
             results = searcher.find(u"content",keyword)
+            # results = searcher.find(u"title",keyword,u"content",keyword)
             # 检索出来的第一个结果，数据格式为dict{'title':.., 'content':...}
             data=[]
             for r in results:
@@ -134,8 +135,38 @@ class Search:
         #     for result1 in results:
         #         print(dict(result1))
         #         new_list.append(dict(result1))
+    def find_title(self,keyword):
+        print("开始检索")
+        self.load()
+        #---------------------------------检索展示-----------------------------------------------
+        with self.storage.open_index(indexname=self.ix_name).searcher() as searcher:
+            # print("kais")
+            # query = MultifieldParser(["symbol", "co_name"], ix.schema， group=syntax.OrGroup)
+            # 检索标题中出现'文档'的文档
+            results = searcher.find('title',keyword)
+            # 检索出来的第一个结果，数据格式为dict{'title':.., 'content':...}
+            data=[]
+            for r in results:
+                # display(HTML('<h3>' + r.get('title') + '</h3>'))
+                # display(HTML(r.highlights("content")))  # 高亮标题中的检索词
+                # print(r.get('title'))
+                # print(r.get('content'))
+                # print(r.score)  # 分数
+                # print(r.docnum)
+                # print(r)
+                one={'title':r.get('title'), 'content':r.get('content'),'path':r.get('path'),'score':r.score,'docnum':r.docnum}
+                data.append(one)
+ 
 
-
+            return data
+    def all(self):
+        """
+        所有
+        """
+        self.load()
+        all_docs = self.ix.searcher().documents()
+        for doc in all_docs:
+            yield doc
 # s=Search()
 # # s.init_search()
 # data=[{'title':'www','content':'223这是我们增加搜索的s第武器篇文档，哈哈 ','path':'https://www.osgeo.cn/whoosh/batch.html'}]

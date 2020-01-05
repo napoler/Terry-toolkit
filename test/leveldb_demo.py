@@ -37,4 +37,6 @@ tdb.put_data(data)
 
 print(tdb.get('key'))
 
+#切换表前缀
+tdb.load("dsd2132")
 tdb.get_all()

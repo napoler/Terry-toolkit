@@ -419,8 +419,8 @@ para=""" [SEP]  [TT] 异国短毛猫的喂养和性格，你所不知道的，�
 
 # text=tkit.File().open_file("/mnt/data/dev/github/gpt2Write/gpt2Write/data/train.txt")
 # # print(len(text[:10000]))
-t.load_ht('ht_model')
-# t.load_ht()
+# t.load_ht('ht_model')
+t.load_ht()
 # print(t.ht.posseg(para))
 # t.find_new_words(text)
 # t.add_words()
@@ -434,9 +434,23 @@ t.load_ht('ht_model')
 #     print(arc)
 # print(t.ht.triple_extraction(para))
 
-for item in t.ht.triple_extraction(para):
-  print(','.join(item))
+# for item in t.ht.triple_extraction(para):
+#   print(','.join(item))
 
+sent="异国短毛猫的喂养和性格，你所不知道的，下面就来告诉你 "
+
+print(t.ht.named_entity_recognition(sent))
+
+
+ht=t.ht
+# 在现有实体库的基础上随时新增，比如从新词发现中得到的漏网之鱼
+ht.add_new_entity("颜骏凌", "颜骏凌", "球员")
+docs = ["武磊和颜骏凌是队友",
+		"武磊和郜林都是国内顶尖前锋"]
+G = ht.build_entity_graph(docs)
+print(dict(G.edges.items()))
+G = ht.build_entity_graph(docs, used_types=["球员"])
+print(dict(G.edges.items()))
 
 # # 在现有实体库的基础上随时新增，比如从新词发现中得到的漏网之鱼
 # ht.add_new_entity("颜骏凌", "郜林", "球员")
