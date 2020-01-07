@@ -2,6 +2,40 @@
 Terry-toolkit常用函数整理的工具包
 https://pypi.org/project/Terry_toolkit/
 
+#拆分各个模块
+
+## tkitMarker自动标记模块
+tkitMarker 
+## tkitWeb web操作模块
+tkitWeb
+## tkitText 文本操作模块
+tkitText 
+## tkitNlp Nlp模块
+tkitNlp
+## tkitDb 数据库操作模块
+tkitDb
+## tkitFile 文件操作模块
+tkitFile
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 ## 安装
 ```
