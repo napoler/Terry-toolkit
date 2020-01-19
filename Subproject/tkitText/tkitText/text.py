@@ -11,6 +11,10 @@ from harvesttext import HarvestText
 from tqdm import tqdm
 import  hashlib
 
+from fuzzywuzzy import fuzz
+# from fuzzywuzzy import process
+
+
 import jieba.analyse
 
 class Text:
@@ -33,17 +37,122 @@ class Text:
         string = hashlib.md5(string).hexdigest()
         # print(string)
         return string
+    def auto_find(self, stringA, stringB,ftype='start'):
+        """
+        自动搜索开始或者结尾
+        ftype='start'  或者end
+        """
 
-    def load_ht(self):
+
+        for i in range(0,len(stringB)):
+            # print('i',i)
+            
+            if ftype=='start':
+                f_r=1
+                if len(stringB)-i==1:
+                    # print("取值",0)
+                    find_w=stringB[0]
+                else:
+                    # print("取值",(1*(f_r-1),len(stringB)-i-1)*f_r)
+                    find_w=stringB[1*(f_r-1):(len(stringB)-i)*f_r]
+                n=stringA.find(find_w)
+                # print('find_w',find_w)
+            else:
+                f_r=-1
+ 
+                # print('stringB[f_r]',stringB[f_r])
+                if len(stringB)-i==1:
+                    # print("取值",-1)
+                    find_w=stringB[-1]
+                else:
+                    # print("取值",((len(stringB)-i)*f_r,1*(f_r)))
+                    find_w=stringB[(len(stringB)-i)*f_r::]
+                # print('stringB[f_r]',stringB[f_r])
+                # print('find_w',find_w)
+
+            n=stringA.find(find_w)
+            # print('n',n)
+            
+            if n!=-1:
+                pass
+                # # print(find_w)
+                if ftype=='start':
+                    # print("开始结束")
+                    return n
+                else:
+                    return n+len(find_w) #预测结尾时候加上词长度
+                
+            
+        
+
+    def find_match(self,a,b):
+        """
+        搜索一个相似的文本
+        从a中搜索b
+        """  
+        print(b)
+        find_b=a.find(b)
+        if find_b==-1:
+            start=self.auto_find(a,b,'start')
+            # exit()
+            end=self.auto_find(a,b,'end')
+            if start !=None and end !=None:
+                c=a[start:end]
+                f=fuzz.partial_ratio(b,c)
+                # print(f)
+                return c,f
+        else: 
+            c=a[find_b:find_b+len(b)]
+            # print(c)
+            # print(find_b)
+            # print(len(b))
+            # f=fuzz.partial_ratio(c,b)
+            # print(f)
+            # if f==100:
+            return c,100
+
+
+        # # f=fuzz.partial_ratio(a,b)
+        # start=a.find(b[1:3])
+        # end=a.find(b[-3:-1])
+        # c=a[start:end]
+        # f=fuzz.partial_ratio(c,b)
+        # # print(f)
+        # return c,f
+
+    # a="嘉朵能够帮助或带领丹恩·萧完成许多事，如逛商店；牠在完成一天的工作后便待在马厩里"
+    # b="帮助或带领丹恩"
+    # c=find_match(a,b)
+    # print(c)
+    def load_ht(self,ht_model=None):
         """
         加载模型
 
         """
+        if ht_model== None:
+            pass
+        else:
+            self.ht_model=ht_model
         if self.ht_model == None:
             self.ht = HarvestText()        
         else:
             self.ht = loadHT(self.ht_model)
 
+    def save_ht(self,ht_model=None):
+        """
+        保存模型
+        >>>  
+        """
+     
+        # self.ht.add_new_words(new_words)
+
+        if ht_model== None:
+            pass
+            # print("模型保存",self.ht_model)
+        else:
+            self.ht_model=ht_model
+        saveHT(self.ht,self.ht_model)
+        print("模型保存",self.ht_model)  
     
     # for span, entity in t.ht.entity_linking(text):
     # 	print(span, entity)
@@ -71,7 +180,7 @@ class Text:
         
         # print(entity_type_dict)
         return entity_type_dict
-    def typed_words(self):
+    def typed_words(self,ht_model=None):
         """
         添加类型词
         >>> add_words(new_words,path)
@@ -81,10 +190,16 @@ class Text:
         typed_words, stopwords = get_qh_typed_words(), get_baidu_stopwords()
         self.ht.add_typed_words(typed_words)
         # self.ht.add_new_words(new_words)
-        saveHT(self.ht,self.ht_model)
-        print("模型保存",self.ht_model)       
-
-    def add_words(self,new_words=[]):
+        self.save_ht(ht_model)            
+    def add_entity(self,words,ht_model=None):
+        """
+        添加类型词
+        words=[("词语",'类型')]
+        """
+        for word,type0 in words:
+           tt.ht.add_new_entity(word, type0=type0)  # 作为特定类型登录
+        self.save_ht(ht_model)
+    def add_words(self,new_words=[],ht_model=None):
         """
         添加新词
         >>> add_words(new_words,path)
@@ -94,8 +209,24 @@ class Text:
         # typed_words, stopwords = get_qh_typed_words(), get_baidu_stopwords()
         # self.ht.add_typed_words(typed_words)
         self.ht.add_new_words(new_words)
-        saveHT(self.ht,self.ht_model)
-        print("模型保存",self.ht_model)        
+        self.save_ht(ht_model)
+    
+    # def add_typed_words(self,new_words=[],ht_model=None):
+    #     """
+    #     添加新词
+    #     >>> add_words(new_words,path)
+    #     """
+     
+    #     # self.ht.add_new_words(new_words)
+
+    #     # if ht_model== None:
+    #     #     pass
+    #     #     # print("模型保存",self.ht_model)
+    #     # else:
+    #     #     self.ht_model=ht_model
+    #     # saveHT(self.ht,self.ht_model)
+    #     # print("模型保存",self.ht_model)   
+ 
     def find_new_words(self,text):
         """
         新词发现函数

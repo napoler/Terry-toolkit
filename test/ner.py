@@ -65,7 +65,7 @@ def ner(text):
     # print(words_list)
     # return words_list,words, postags,netags
     return words_list
-text="谷景生，男，1913年7月生，山西省猗氏（今临猗）县罗村人。“一二·九”运动主要领导人之一、我军优秀的政治工作领导者。"
+text="在中国的任何一个小区里，你都有机会发现流浪猫的身影。"
 print(ner(text))
 
 

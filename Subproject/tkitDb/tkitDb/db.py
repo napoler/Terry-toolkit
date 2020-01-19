@@ -91,7 +91,10 @@ class LDB:
         # value=self.tobytes(value)
         value=self.db.get(key)
         # print(type(bytes.decode(value)))
-        return bytes.decode(value)
+        try:
+            return bytes.decode(value)
+        except:
+            return None
     def get_sn(self,key):
         """
         获取数据
