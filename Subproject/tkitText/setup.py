@@ -35,7 +35,7 @@ setup(
         # 'bs4==0.0.1',
         # 'MagicBaidu==0.0.9',
         # 'requests==2.21.0',
-        'fuzzywuzzy==0.17.0',
+        'rapidfuzz==0.7.3',
         'textrank4zh==0.3',
         'readability-lxml==0.7.1',
         'html2text==2019.9.26',

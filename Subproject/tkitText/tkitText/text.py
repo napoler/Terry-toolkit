@@ -11,8 +11,8 @@ from harvesttext import HarvestText
 from tqdm import tqdm
 import  hashlib
 
-from fuzzywuzzy import fuzz
-# from fuzzywuzzy import process
+from rapidfuzz import fuzz
+# from rapidfuzz import process
 
 
 import jieba.analyse
