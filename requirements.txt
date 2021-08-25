@@ -107,7 +107,7 @@ stanfordcorenlp==3.9.1.1
 sumy==0.8.1
 synonyms==3.10.2
 tensorboard==1.14.0
-tensorflow==1.14.0
+tensorflow==2.5.1
 tensorflow-estimator==1.14.0
 termcolor==1.1.0
 terminado==0.8.3
